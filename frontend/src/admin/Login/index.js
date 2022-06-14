@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+
+
 
 const Login = ({ loginUser }) => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -27,9 +30,14 @@ const Login = ({ loginUser }) => {
   return (
     <div className="container">
       <div className="row">
+      <div className="col-md-12 my-5 text-right">
+          <Link to="/" className="btn btn-dark mr-2">
+            Go Back
+          </Link>
+        </div>
         <div className="col-md-12">
           <h1 className="text-center font-weight-bolder py-5">
-            React Firebase Simple Blog
+            Pets Store
             <span className="text-primary"> [Admin]</span>
           </h1>
 

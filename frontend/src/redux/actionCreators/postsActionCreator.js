@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { fire } from "../../Config/config";
-
+import { db, fire } from "../../Config/config";
+import axios from 'axios';
 const setPostsLoading = (message) => ({
   type: "SET_POSTS_LOADING",
   payload: message,
@@ -178,11 +178,71 @@ export const postUpdate = (postId, data) => (dispatch) => {
     .doc(postId)
     .update({
       title: data.title,
-      price : data.price,
+      price: data.price,
       category: data.category,
       description: data.description,
     })
     .then(() => {
       dispatch(updatePost({ postId, data }));
     });
+};
+
+
+
+
+
+export const getAllOrders = () => async (dispatch, getState) => {
+  // const currentUser = getState().loginUserReducer.currentUser;
+  // dispatch({
+  //   type: "ALL_ORDER_REQUEST",
+  // });
+  console.log('getAllOrders')
+  try {
+    // const response = await axios.get("/api/orders/alluserorder");
+    var data = [];
+    let snaps = await db.collection('Buyer-info')
+    let prom = new Promise((resolve, reject) => {
+      snaps.onSnapshot((snap) => {
+        snap.forEach((doc) => {
+          data.push({ orderId: doc.id, ...doc.data() });
+        })
+        resolve()
+      })
+    }).then(()=>{
+      dispatch({ type: "ALL_ORDER_SUCCESS", payload: data });
+    })
+    // .then(() => {
+      
+    // })
+    // console.log('length', data.length)
+  } catch (error) {
+    console.log('getAllOrders errrr', error)
+    dispatch({ type: "ALL_ORDER_FAIL", payload: [] });
+  }
+};
+
+export const deliverOrder = (orderId) => async (dispatch, getState) => {
+  // const currentUser = getState().loginUserReducer.currentUser;
+  // dispatch({
+  //   type: "GET_ALL_ORDER_REQUEST",
+  // });
+  try {
+    //await axios.post("/api/orders/deliverorder", { orderid });
+
+    fire
+      .firestore()
+      .collection("Buyer-info")
+      .doc(orderId)
+      .update({
+        isDeliverd: true,
+      })
+      .then(() => {
+        // dispatch(updatePost({ postId, data }));
+      });
+
+  }
+
+  catch (error) {
+    // dispatch({ type: "GET_ALL_ORDER_FAIL", payload: error });
+  }
 };

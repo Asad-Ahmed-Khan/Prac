@@ -25,20 +25,21 @@ const Dashboard = () => {
       .then(() => {
         dispatch({ type: "RESET_USER" });
         toast.success("You are successfully logged out");
-        history.push("/");
+        history.push("/admin/login");
       })
       .catch((error) => toast.error(error.message));
   };
   return (
     <>
       <Navbar logoutUser={logoutUser} />
-      <Switch>
+      <Home />
+      {/* <Switch>
         <Route exact path={path} component={() => <Home />} />
         <Route exact path={`${path}/addPost`} component={() => <AddPost />} />
         <Route exact path={`${path}/posts`} component={() => <Posts />} />
         <Route exact path={`${path}/post/:id`} component={() => <SeePost />} />
         <Route exact path={`${path}/post/:id/edit`} component={() => <EditPost />} />
-      </Switch>
+      </Switch> */}
     </>
   );
 };

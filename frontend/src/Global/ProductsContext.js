@@ -18,7 +18,7 @@ export class ProductsContextProvider extends React.Component {
                 db.collection('SignedUpUsersData').doc(user.uid).get().then(user => {
                     // userId = snapshot?.id
                     const prevpost = []//this.state.products;
-                    db.collection('post').orderBy('rating', 'desc').onSnapshot(snapshot => {
+                    db.collection('posts').orderBy('rating', 'desc').onSnapshot(snapshot => {
                         let changes = snapshot.docChanges();
                         changes.forEach(change => {
                             if (change.type === 'added' && change.doc.data().userId !== user?.id) {

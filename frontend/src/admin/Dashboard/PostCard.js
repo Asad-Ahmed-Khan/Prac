@@ -1,9 +1,9 @@
-import React, {useContext} from "react";
+import React  from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { postDel } from "../../redux/actionCreators/postsActionCreator";
-import  StarRating from "../../Components/StarRating"
+
 
 
 import './postcard.css'
@@ -44,7 +44,7 @@ const PostCard = ({  posts, id }) => {
                     <button
               type="button"
               onClick={() =>
-                history.push(`/admin/dashboard/post/${post.postId}/edit`)
+                history.push(`/admin/post/${post.postId}/edit`)
               }
               className="btn btn-outline-primary  my-2  mx-1"
             >

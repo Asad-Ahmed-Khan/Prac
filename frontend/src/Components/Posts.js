@@ -34,7 +34,7 @@ const Posts = () => {
     if (postsLoading) {
       dispatch(getPosts());
     }
-  }, [dispatch]);
+  }, []);
   return (
     <div className="container-fluid">
       <div className="row px-5">
@@ -44,27 +44,33 @@ const Posts = () => {
               All Posts
             </p>
           </div>
-          <div className="row my-5">
+          <div className=" my-5">
+          <div class= 'bigContainer cards   m-2 '>
+            <div class='products-container'>
             {postsLoading
               ? "Loading posts"
               : latestPosts.map((post, id) => (
                   <div
-                    className="col-md-5 mx-auto px-0 w-100 card mb-3"
+                    className="product-card"
                     key={id}
                   >
+                    <div className='product-img'>
                     <img
                       src={post.post.image}
                       alt={post.post.title}
                       className="card-img-top border-bottom"
                     />
-                    <div className="card-body px-5">
+                    </div>
+                    <div className="product-name">
                       <h4 className="card-title text-capitalize">
                         {post.post.title}
                       </h4>
+                    </div>
+                    <div className='product-price'>
                       <h2 className="card-title text-capitalize">
                         {post.post.price}
                       </h2>
-                      <p className="card-text text-heading text-*-justify">
+                      <p className="texts">
                         {post.post.description.substring(0, 1).toUpperCase() +
                           post.post.description.substring(1, 100)}
                         ...
@@ -83,9 +89,11 @@ const Posts = () => {
                     <div style={{margin:'auto'}} >
                     <StarRating product={post}  /></div>
                     <p style={{margin:'auto'}}>{Number(post?.post?.rating || 0).toFixed(2)}</p>
-                        <button className='addcart-btn' onClick={() => contextArea.dispatch({ type: 'ADD_TO_CART', id: post.postId, post })}>ADD TO CART</button>
+                        <button className='addcarts-btn' onClick={() => contextArea.dispatch({ type: 'ADD_TO_CART', id: post.postId, post })}>ADD TO CART</button>
                   </div>
                 ))}
+                </div>
+                </div>
           </div>
         </div>
       </div>

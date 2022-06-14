@@ -4,12 +4,12 @@ import SubNavbar from './SubNavbar'
 
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/config'
-import { ProductsContext } from '../Global/ProductsContext';
+// import { ProductsContext } from '../Global/ProductsContext';
 import Posts from './Posts';
 
 
 
-export const Home = ({ user }) => {
+export const Home = ({ user, userId }) => {
 
     const history = useHistory();
 
@@ -17,15 +17,15 @@ export const Home = ({ user }) => {
         // forcing user to signup
         auth.onAuthStateChanged(user => {
             if (!user) {
-                history.push('/');
+                // history.push('/');
             }
         })
-    })
+    }, [])
 
     return (
         <div className='wrapper'>
-            <SubNavbar />
-            <Navbar user={user} />
+            {/* <SubNavbar /> */}
+            <Navbar user={user} userId={userId} />
             <Posts />
         </div>
     )

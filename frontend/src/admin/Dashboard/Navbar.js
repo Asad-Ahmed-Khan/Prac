@@ -13,23 +13,28 @@ const Navbar = ({ logoutUser }) => {
 
   return (
     <nav className="navbar navbar-expand-lg py-3 navbar-dark bg-dark shadow">
-      <Link to="/admin/dashboard/" className="navbar-brand ml-5">
-        Admin Dashboard
+      <Link to="/admin" className="navbar-brand ml-5">
+        AdmiDashboard
       </Link>
       <ul className="navbar-nav">
         <li className="nav-item">
-          <NavLink exact to="/admin/dashboard" className="nav-link">
+          <NavLink exact to="/admin" className="nav-link">
             Home
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink exact to="/admin/dashboard/addPost" className="nav-link">
+          <NavLink exact to="/admin/addPost" className="nav-link">
             Add Post
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink exact to="/admin/dashboard/posts" className="nav-link">
+          <NavLink exact to="/admin/posts" className="nav-link">
             All Posts
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <NavLink exact to="/admin/orders" className="nav-link">
+            Order List
           </NavLink>
         </li>
       </ul>
@@ -37,7 +42,7 @@ const Navbar = ({ logoutUser }) => {
       {isLoggedIn && (
         <div className="profile text-white font-weight-bold ml-auto mr-5">
           Welcome Admin,{" "}
-          <span className="text-warning">{user.displayName}</span>
+          <span className="text-warning">{user?.displayName}</span>
           <button className="btn btn-primary ml-3" onClick={() => logoutUser()}>
             Logout
           </button>

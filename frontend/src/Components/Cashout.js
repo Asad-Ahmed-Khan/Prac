@@ -41,7 +41,7 @@ export const Cashout = (props) => {
             if (user) {
                 const date = new Date();
                 const time = date.getTime();
-                db.collection('Buyer-info ' + user.uid).doc('_' + time).set({
+                db.collection('Buyer-info').doc('_' + time).set({
                     BuyerName: name,
                     BuyerEmail: email,
                     BuyerCell: cell,
@@ -54,7 +54,7 @@ export const Cashout = (props) => {
                     dispatch({ type: 'EMPTY' })
                     setSuccessMsg('Your order has been placed successfully. Thanks for visiting us. You will be redirected to home page after 5 seconds');
                     setTimeout(() => {
-                        history.push('/login')
+                        history.push('/')
                     }, 5000)
                 }).catch(err => setError(err.message))
             }

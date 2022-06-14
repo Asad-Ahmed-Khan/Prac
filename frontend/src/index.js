@@ -16,7 +16,9 @@ import { Provider } from "react-redux";
 // reducers import
 import authReducer from "./redux/reducers/authReducer";
 import postReducer from "./redux/reducers/postReducer";
-
+import { ProductsContextProvider } from './Global/ProductsContext';
+import { CartContextProvider } from './Global/CartContext';
+import  {allUserOrdersReducer } from './redux/reducers/OrderReducer';
 
 
 // composers
@@ -26,6 +28,8 @@ const composedEnhancers = composeWithDevTools || compose;
 const reducers = combineReducers({
   auth: authReducer,
   posts: postReducer,
+  allUserOrdersReducer : allUserOrdersReducer,
+
 });
 
 // store
@@ -35,16 +39,20 @@ const store = createStore(reducers, composedEnhancers(applyMiddleware(thunk)));
 // ReactDOM.render(
 
 //   <App />,
-  
+
 //   document.getElementById('root')
 // );
 
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <ProductsContextProvider>
+      <CartContextProvider>
+        <Router>
+          <App />
+        </Router>
+      </CartContextProvider>
+    </ProductsContextProvider>
   </Provider>,
   document.getElementById("root")
 );

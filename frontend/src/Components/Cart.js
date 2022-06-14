@@ -19,18 +19,18 @@ export const Cart = ({ user }) => {
 
     // useEffect(() => {
     //     auth.onAuthStateChanged(user => {
-    //         if (user.length !== 0) {
+    //         if (!user) {
     //             history.push('/login');
     //         }
     //     })
     // })
-    useEffect(() => {
-        auth.onAuthStateChanged(user =>   {
-        if(user.length !== 0 ){
-    alert('login your account')
-}
-})
-    }) 
+//     useEffect(() => {
+//         auth.onAuthStateChanged(user =>   {
+//         if(!user ){
+//     alert('login your account')
+// }
+// })
+//     }) 
 
 console.log('cart data', shoppingCart)
     return (

@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Kanit:ital,wght@1,300&family=Roboto:wght@100;400;500&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -92,6 +92,9 @@ body {
 }
 .nav-link{
     color: rgb(151, 148, 148);
+}
+.navlink{font-family:'Dancing Script', cursive;
+font-size: 22px;
 }
 .nav-link:hover{
 color: white;

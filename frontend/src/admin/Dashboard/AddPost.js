@@ -44,7 +44,7 @@ const AddPost = () => {
       image,
     };
 
-    dispatch(newPost(data, userId, user.displayName, setProgress));
+    dispatch(newPost(data, userId, user?.displayName || 'user', setProgress));
   };
 
   return (

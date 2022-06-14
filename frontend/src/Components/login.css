@@ -154,3 +154,13 @@
       width: 300px;
     }
   } 
+  .addcarts-btn{
+    padding: 10px;
+    margin: 20px;
+    background-color: #00264d;
+    box-shadow: 4px 8px 15px grey;
+    color: white;
+    width: 87%;
+}
+  
+ 

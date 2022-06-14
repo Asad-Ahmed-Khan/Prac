@@ -10,6 +10,7 @@ import {
 const EditPost = () => {
   const { id } = useParams();
   const [title, setTitle] = useState("");
+  const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
 
@@ -31,6 +32,7 @@ const EditPost = () => {
     }
     if (currentPost) {
       setTitle(currentPost.post.title);
+      setPrice(currentPost.post.price);
       setCategory(currentPost.post.category);
       setDescription(currentPost.post.description);
     }
@@ -39,18 +41,18 @@ const EditPost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !category || !description) {
+    if (!price ||!title || !category || !description) {
       return toast.warning("Please fill in all fields!");
     }
 
-    if (description.length < 100) {
+    if (description.length < 50) {
       return toast.info("Description should be of atleast 100");
     }
     if (title.trim().split(" ").length < 2) {
       return toast.info("Title should be of atleast 2 words");
     }
 
-    const data = { title, description, category };
+    const data = { title, description, category, price };
     dispatch(postUpdate(currentPost.postId, data));
     toast.success("Post Updated Successfully!!");
   };
@@ -71,6 +73,15 @@ const EditPost = () => {
                   className="form-control"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <input
+                  type="text"
+                  placeholder="Price"
+                  className="form-control"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
               <div className="form-group">
@@ -100,7 +111,7 @@ const EditPost = () => {
                 <button
                   type="button"
                   className="btn btn-danger w-40"
-                  onClick={() => history.push("/admin/dashboard/posts")}
+                  onClick={() => history.push("/admin/posts")}
                 >
                   Go Back
                 </button>

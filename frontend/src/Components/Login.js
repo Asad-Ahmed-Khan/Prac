@@ -47,6 +47,8 @@ import Google from "../images/google.png";
 import Facebook from "../images/facebook.png";
 import Github from "../images/github.png";
 import { GoogleLogin } from 'react-google-login';
+import axios from 'axios';
+
 
 
 export const Login = (props) => {
@@ -54,9 +56,12 @@ export const Login = (props) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const handleGoogleSignIn = (data) => console.log('handleGoogleSignIn', data);
-    const handleFBSignIn = () => { };
+    const handleFBSignIn = (data) => console.log('handleFBSignIn', data);;
 
     const login = (e) => {
+      
+            
+      
         e.preventDefault();
         auth.signInWithEmailAndPassword(email, password).then(() => {
             setEmail('');
@@ -65,6 +70,7 @@ export const Login = (props) => {
             props.history.push('/');
         }).catch(err => setError(err.message));
     }
+
 
 
 
@@ -86,40 +92,47 @@ export const Login = (props) => {
                 <h1 className="loginTitle">Choose a Login Method</h1>
                 <div className="wrapper1">
                     <div className="left">
-                        <GoogleLogin
+                        {/* <GoogleLogin
                             clientId='568290849976-jr284jc01jjqm2li24u8sfarr3ombtju.apps.googleusercontent.com'
                             buttonText="Google"
+                            scope='https://www.googleapis.com/auth/drive.file'
+                            // onSuccess={this.responseGoogle}
+                            // onFailure={this.responseErrorGoogle}
                             onSuccess={(success) => console.log('success', success)}
-                            onFailure={(fail) => console.log('fail', fail)}
-                            //   onClick={handleGoogleSignIn}
+                            // onSuccess={onLoginSuccess}
+                             onFailure={(fail) => console.log('fail', fail)}
+                             //onFailure={onFailureSuccess}
+                              onClick={handleGoogleSignIn}
                             cookiePolicy={'single_host_origin'}
                             isSignedIn={true}
                             fetchBasicProfile={true}
-                        />
-                        {/* <div className="loginButton google" onClick={google}>
-         <img src={Google} alt="" className="icon" />
-            Google
-          </div> */}
+                        /> */}
+                         <div className="loginButton google" onClick={google}>
+                        <img src={Google} alt="" className="icon" />
+                         Google
+                        </div> 
+      
                         <div className="loginButton facebook" onClick={facebook}>
                             <img src={Facebook} alt="" className="icon" />
                             Facebook
                         </div>
-                        <div className="loginButton github" onClick={github}>
+                        {/* <div className="loginButton github" onClick={github}>
                             <img src={Github} alt="" className="icon" />
                             Github
-                        </div>
+                        </div> */}
                     </div>
                     <div className="center">
                         <div className="line" />
                         <div className="or">OR</div>
                     </div>
                     <div className="right">
-                        <input type="text" className='log' placeholder="Username"
+                        <input type='email' className='log' placeholder="Email"
                             onChange={(e) => setEmail(e.target.value)} value={email} />
                         <input type="text" className='log' placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)} value={password} />
                         {error && <span className='error-msg'>{error}</span>}
                         <button className="submit">Login</button>
+                        <Link to='/Admin/login' className="submit" style={{marginTop: '5px', textAlign: 'center'}}>Login With Admin</Link>
                         <br />
                         <span>Don't have an account? Register
                             <Link to="signup"> Here</Link>

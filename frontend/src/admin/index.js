@@ -2,11 +2,19 @@ import React, { useEffect } from "react";
 import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
 
 import Login from "./Login";
-import { fire } from "../Config/config";
+import { auth, fire } from "../Config/config";
 import { toast } from "react-toastify";
 import Register from "./Register";
+import Home from "./Dashboard/Home";
 import { useDispatch, useSelector } from "react-redux";
 import Dashboard from "./Dashboard";
+import AddPost from "./Dashboard/AddPost";
+// import Navbar from "./Navbar";
+import Posts from "./Dashboard/Posts";
+import SeePost from "./Dashboard/SeePost";
+import EditPost from "./Dashboard/EditPost";
+import Navbar from "./Dashboard/Navbar";
+import OrderList from "./Dashboard/OrderList";
 
 const Admin = () => {
   const history = useHistory();
@@ -74,19 +82,30 @@ const Admin = () => {
         }
       });
   };
-
+  console.log('msla')
   return (
-    <Switch>
-      <Route path={`${path}/login`}>
-        <Login loginUser={loginUser} />
-      </Route>
-      <Route path={`${path}/register`}>
-        <Register registerUser={registerUser} />
-      </Route>
-      <Route path={`${path}/dashboard`}>
-        <Dashboard />
-      </Route>
-    </Switch>
+    <>
+      {/* <Navbar /> */}
+
+      <Switch>
+      
+        <Route path={`${path}/login`}>
+          <Login loginUser={loginUser} />
+        </Route>
+        <Route path={`${path}/register`}>
+          <Register registerUser={registerUser} />
+        </Route>
+        <Route path={`${path}/dashboard`}>
+          <Dashboard />
+        </Route>
+        <Route exact path={path} component={() => <Home />} />
+        <Route exact path={`${path}/addPost`} component={() => <AddPost />} />
+        <Route exact path={`${path}/posts`} component={() => <Posts />} />
+        <Route exact path={`${path}/orders`} component={() => <OrderList />} />
+        <Route exact path={`${path}/post/:id`} component={() => <SeePost />} />
+        <Route exact path={`${path}/post/:id/edit`} component={() => <EditPost />} />
+      </Switch>
+    </>
   );
 };
 

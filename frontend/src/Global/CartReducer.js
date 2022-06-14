@@ -45,7 +45,7 @@ export const CartReducer = (state, action) => {
         case 'INC':
             post = action.cart;
             post.qty = ++post.qty;
-            post.TotalpostPrice = post.qty * post.post?.price;
+            post.TotalpostPrice = post.qty * Number(post.post?.price);
             updatedQty = Number(totalQty) + 1;
             updatedPrice = Number(totalPrice) + Number(post.post?.price);
             index = shoppingCart.findIndex(cart => cart.postId === action.id);
@@ -59,7 +59,7 @@ export const CartReducer = (state, action) => {
             post = action.cart;
             if (post.qty > 1) { 
                 post.qty = post.qty - 1;
-                post.TotalpostPrice = post.qty * (post.post?.price);
+                post.TotalpostPrice = post.qty * Number(post.post?.price);;
                 updatedPrice = totalPrice - post.post.price;
                 updatedQty = totalQty - 1;
                 index = shoppingCart.findIndex(cart => cart.postId === action.id);

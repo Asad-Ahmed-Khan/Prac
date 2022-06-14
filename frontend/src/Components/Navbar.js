@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import logo from '../images/orignal'
 
 import { auth } from '../Config/config'
@@ -7,44 +7,73 @@ import { cart } from 'react-icons-kit/entypo/cart'
 import { useHistory } from 'react-router-dom'
 import { CartContext } from '../Global/CartContext'
 import { Link, NavLink } from "react-router-dom";
+
 import "../index.css"
 
 
 import { Menu, Dropdown, Button, Space } from 'antd';
+import { getByDisplayValue } from '@testing-library/react'
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, userId }) => {
 
+  const [name, setName] = useState('');
   const history = useHistory();
   const { totalQty } = useContext(CartContext);
 
   // handle logout
+
   const handleLogout = () => {
+
     auth.signOut().then(() => {
       history.push('/login');
     })
 
   }
   const menu = (
-    <Menu
-      items={[
-
-        // {
-        //   label: (
-        //     <a  rel="noopener noreferrer" href="../AddProducts">
-        //       Add Product
-        //     </a>
-        //   ),
-        // },
-        {
-          label: (
-            <a onClick={handleLogout}>Logout</a>
-          ),
-        },
-
-      ]}
-    />
-
+    <Menu>
+      <Menu.Item>
+        <a rel="noopener noreferrer" href="../Signup">SignUp</a>
+      </Menu.Item>
+      {!(userId && userId?.length) ? <Menu.Item>
+        <a rel="noopener noreferrer" href="../login">Login</a>
+      </Menu.Item> : null}
+      {userId && userId?.length ? <Menu.Item >
+        <a href='../' onClick={handleLogout}>Logout</a>
+      </Menu.Item> : null}
+    </Menu>
   );
+
+
+
+  // (
+  //   <Menu
+  //     items={[
+
+  //       {
+  //         label: (
+  //           <a rel="noopener noreferrer" href="../Signup">
+  //             SignUp
+  //           </a>
+  //         ),
+  //       },
+  //       label: !(userId && userId?.length) ? (
+  //         <a rel="noopener noreferrer" href="../login">
+  //           Login
+  //         </a>
+  //       ) : null, ,
+
+  //       {
+  //         label: (
+  //           <a onClick={handleLogout}>Logout</a>
+  //         ),
+
+  //       }
+
+
+  //     ]}
+  //   />
+
+  // );
 
   return (
 
@@ -85,10 +114,11 @@ const Navbar = ({ user }) => {
         <Space direction="vertical">
           <Space wrap>
             <Dropdown overlay={menu} placement="bottom">
-              <Button className='logout-btn' style={{ Color: "black" }}><span><Link to="/" style={{ color: "white" }} className='navlink'>{user}</Link></span></Button>
+              <button className='logout-btn' style={{ backgroundColor: 'white' }}><span><Link to="/" style={{ color: "#00264d", }} className='navlink'>{'Pets Store'}</Link></span></button>
             </Dropdown>
           </Space>
-        </Space></div>
+        </Space>
+      </div>
       {/* } */}
 
     </div>
