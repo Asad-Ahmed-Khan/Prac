@@ -25,8 +25,8 @@ export const Cashout = (props) => {
            
             if(user){
                 db.collection('SignedUpUsersData').doc(user.uid).onSnapshot(snapshot => {
-                    setName(snapshot.data().Name);
-                    setEmail(snapshot.data().Email);
+                setName(snapshot.data()?.Name);
+                    setEmail(snapshot.data()?.Email);
                 })
             }
              else {

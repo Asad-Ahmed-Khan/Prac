@@ -217,7 +217,7 @@ export const getAllOrders = () => async (dispatch, getState) => {
     // console.log('length', data.length)
   } catch (error) {
     console.log('getAllOrders errrr', error)
-    dispatch({ type: "ALL_ORDER_FAIL", payload: [] });
+    dispatch({ type: "ALL_ORDER_FAIL", payload: error, });
   }
 };
 
@@ -235,9 +235,12 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
       .doc(orderId)
       .update({
         isDeliverd: true,
+       
       })
+     
       .then(() => {
-        // dispatch(updatePost({ postId, data }));
+        window.location.href = "/admin/orders";
+         //dispatch(updatePost({ postId, data }));
       });
 
   }
