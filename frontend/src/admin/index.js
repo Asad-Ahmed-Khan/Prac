@@ -101,7 +101,7 @@ const Admin = () => {
         <Route exact path={path} component={() => <Home />} />
         <Route exact path={`${path}/addPost`} component={() => <AddPost />} />
         <Route exact path={`${path}/posts`} component={() => <Posts />} />
-        <Route exact path={`${path}/orders`} component={() => <OrderList />} />
+        <Route exact path={`${path}/orders`} component={() => <OrderList /> } />
         <Route exact path={`${path}/post/:id`} component={() => <SeePost />} />
         <Route exact path={`${path}/post/:id/edit`} component={() => <EditPost />} />
       </Switch>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useLayoutEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ const AddPost = () => {
   const [image, setImage] = useState("");
   const [progress, setProgress] = useState(0);
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     
@@ -26,13 +27,15 @@ const AddPost = () => {
     if (!image || image === undefined) {
       return toast.warning("Please select an image!");
     }
+   
+  
 
     if (description.length < 50) {
       return toast.info("Description should be of atleast 100");
     }
-    if (title.trim().split(" ").length < 2) {
-      return toast.info("Title should be of atleast 2 words");
-    }
+    // if (title.trim().split(" ").length < 2) {
+    //   return toast.info("Title should be of atleast 2 words");
+    // }
     if (image.size > 5242880) {
       return toast.info("Image should be less than or equal to 5 MB");
     }
@@ -47,6 +50,11 @@ const AddPost = () => {
     dispatch(newPost(data, userId, user?.displayName || 'user', setProgress));
   };
 
+  const rules = {
+    pattern : '^0-9',
+    message : 'Error'
+  }
+
   return (
     <div className="container">
       <div className="row">
@@ -58,6 +66,8 @@ const AddPost = () => {
         <div className="col-md-12 mb-3">
           <h1 className="display-3 text-dark text-center">Add Post</h1>
         </div>
+       
+        
         <div className="col-md-6 mx-auto mb-5 shadow p-5">
           {progress ? (
             progress !== 100 ? (
@@ -105,11 +115,13 @@ const AddPost = () => {
               </div>
               <div className="form-group">
                 <input
-                  type="Price"
+                  type="text"
                   placeholder="Price"
                   className="form-control"
+                  
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
+                  pattern="^[0-9]+"
                 />
               </div>
               <div className="form-group">

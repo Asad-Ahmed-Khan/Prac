@@ -36,10 +36,13 @@ const Posts = () => {
     }
   }, []);
   return (
+   
     <div className="container-fluid">
       <div className="row px-5">
+      
         <div className="w-100 py-5">
           <div className="latestPostsHeading border-bottom border-primary d-flex mx-5">
+            
             <p className="bg-dark text-white col-md-12 d-flex align-items-center justify-content-center py-2 h5">
               All Posts
             </p>

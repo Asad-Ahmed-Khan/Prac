@@ -25,6 +25,7 @@ export default function postReducer(state = initialState, action) {
       return state;
     case ADD_POST:
       state = { ...state, posts: [...state.posts, action.payload] };
+      
       return state;
     case DELETE_POST:
       const filterPosts = state.posts.filter(

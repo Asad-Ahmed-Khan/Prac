@@ -3,9 +3,10 @@ import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getPosts } from "../../redux/actionCreators/postsActionCreator";
 import PostCard from "./PostCard";
+import Loader from "../../Loader";
 import './postcard.css'
 const Posts = () => {
-  const { postsLoading, allPosts, userId } = useSelector(
+  const { postsLoading, allPosts = [], userId } = useSelector(
     (state) => ({
       postsLoading: state.posts.postsLoading,
       allPosts: state.posts.posts,
@@ -14,12 +15,12 @@ const Posts = () => {
     shallowEqual
   );
   const dispatch = useDispatch();
-  const posts = allPosts.filter((post) => post.post.author === userId && post);
+  const posts = allPosts && allPosts?.length ? allPosts.filter((post) => post?.post?.author === userId && post) : [];
   useEffect(() => {
-    if (postsLoading) {
+    // if (postsLoading) {
       dispatch(getPosts());
-    }
-  }, [dispatch]);
+    // }
+  }, []);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -31,8 +32,8 @@ const Posts = () => {
       </div>
       <div className="row d-flex align-items-center justify-content-center">
         {postsLoading ? (
-          <h1 className="text-center">Loading Posts...</h1>
-        ) : posts.length > 0 ? (
+          <Loader />
+        ) : posts?.length > 0 ? (
           <>
             {/* {posts.map((post, id) => ( */}
               <PostCard posts={posts} key={'id'} id={'id'} />

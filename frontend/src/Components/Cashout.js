@@ -47,7 +47,9 @@ export const Cashout = (props) => {
                     BuyerCell: cell,
                     BuyerAddress: address,
                     BuyerPayment: totalPrice,
-                    BuyerQuantity: totalQty
+                    BuyerQuantity: totalQty,
+                    updatedAt: time,
+                    createdAt: time,
                 }).then(() => {
                     setCell('');
                     setAddress('');

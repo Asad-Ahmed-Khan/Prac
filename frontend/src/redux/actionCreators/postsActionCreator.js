@@ -196,11 +196,11 @@ export const getAllOrders = () => async (dispatch, getState) => {
   // dispatch({
   //   type: "ALL_ORDER_REQUEST",
   // });
-  console.log('getAllOrders')
+  dispatch({ type: "GET_ALL_ORDERS", loading: true, data: [] });
   try {
     // const response = await axios.get("/api/orders/alluserorder");
     var data = [];
-    let snaps = await db.collection('Buyer-info')
+    let snaps = await db.collection('Buyer-info').orderBy('createdAt', 'desc')
     let prom = new Promise((resolve, reject) => {
       snaps.onSnapshot((snap) => {
         snap.forEach((doc) => {
@@ -208,16 +208,16 @@ export const getAllOrders = () => async (dispatch, getState) => {
         })
         resolve()
       })
-    }).then(()=>{
-      dispatch({ type: "ALL_ORDER_SUCCESS", payload: data });
+    }).then(() => {
+      dispatch({ type: "GET_ALL_ORDERS", loading: false, data: data });
     })
     // .then(() => {
-      
+
     // })
     // console.log('length', data.length)
   } catch (error) {
     console.log('getAllOrders errrr', error)
-    dispatch({ type: "ALL_ORDER_FAIL", payload: error, });
+    dispatch({ type: "GET_ALL_ORDERS", loading: false, data: error });
   }
 };
 
@@ -227,6 +227,8 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
   //   type: "GET_ALL_ORDER_REQUEST",
   // });
   try {
+    const date = new Date();
+    const time = date.getTime();
     //await axios.post("/api/orders/deliverorder", { orderid });
 
     fire
@@ -235,12 +237,13 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
       .doc(orderId)
       .update({
         isDeliverd: true,
-       
+        updatedAt: time,
+
       })
-     
+
       .then(() => {
         window.location.href = "/admin/orders";
-         //dispatch(updatePost({ postId, data }));
+        //dispatch(updatePost({ postId, data }));
       });
 
   }

@@ -92,7 +92,7 @@ export const Login = (props) => {
                 <h1 className="loginTitle">Choose a Login Method</h1>
                 <div className="wrapper1">
                     <div className="left">
-                        {/* <GoogleLogin
+                        <GoogleLogin
                             clientId='568290849976-jr284jc01jjqm2li24u8sfarr3ombtju.apps.googleusercontent.com'
                             buttonText="Google"
                             scope='https://www.googleapis.com/auth/drive.file'
@@ -106,11 +106,11 @@ export const Login = (props) => {
                             cookiePolicy={'single_host_origin'}
                             isSignedIn={true}
                             fetchBasicProfile={true}
-                        /> */}
-                         <div className="loginButton google" onClick={google}>
+                        />
+                         {/* <div className="loginButton google" onClick={google}>
                         <img src={Google} alt="" className="icon" />
                          Google
-                        </div> 
+                        </div>  */}
       
                         <div className="loginButton facebook" onClick={facebook}>
                             <img src={Facebook} alt="" className="icon" />
