@@ -7,6 +7,7 @@ import { getPosts } from "../redux/actionCreators/postsActionCreator";
 import { CartContext } from '../Global/CartContext'
 import StarRating from "../Components/StarRating"
 import '../admin/Dashboard/postcard.css'
+import Loader from "../Loader"
 const Posts = () => {
 
   const { posts, postsLoading, isLoggedIn, userId } = useSelector(
@@ -31,9 +32,9 @@ const Posts = () => {
   const dispatch = useDispatch();
   const contextArea = useContext(CartContext);
   useEffect(() => {
-    if (postsLoading) {
+    //if (postsLoading) {
       dispatch(getPosts());
-    }
+   // }
   }, []);
   return (
    
@@ -51,7 +52,7 @@ const Posts = () => {
           <div class= 'bigContainer cards   m-2 '>
             <div class='products-container'>
             {postsLoading
-              ? "Loading posts"
+              ? <Loader />
               : latestPosts.map((post, id) => (
                   <div
                     className="product-card"

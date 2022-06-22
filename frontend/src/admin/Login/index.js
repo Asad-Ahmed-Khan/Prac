@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import { getPosts } from "../../redux/actionCreators/postsActionCreator"; 
+import Loader from "../../Loader"
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
@@ -16,6 +18,15 @@ const Login = ({ loginUser }) => {
 
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const [loading , setLoading]= useState(false);
+  const dispatch = useDispatch();
+    useEffect(() =>{
+        setLoading(true)
+        setTimeout(() =>{
+        setLoading(false)
+        }, 2000 )
+        dispatch(getPosts());
+      }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,13 +41,17 @@ const Login = ({ loginUser }) => {
   return (
     <div className="container">
       <div className="row">
-      
+     
         <div className="col-md-12">
+        { loading ? (
+          <Loader />
+        )
+           : loading?.length && 100 ? (
           <h1 className="text-center font-weight-bolder py-5">
-            Pets Store
+            Pets Store {loading}
             <span className="text-primary"> [Admin]</span>
           </h1>
-
+            ) : (
           <div className="col-md-5 p-2 mt-5 mx-auto">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -65,7 +80,7 @@ const Login = ({ loginUser }) => {
                 </button>
               </div>
             </form>
-          </div>
+          </div>) }
         </div>
       </div>
     </div>

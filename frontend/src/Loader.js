@@ -13,7 +13,7 @@ import "./Loader.css";
 
 export default function LoadingSpinner() {
   return (
-    <div className="spinner-container" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
+    <div className="spinner-container" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100vh'}}>
       <div className="loading-spinner">
       </div>
     </div>

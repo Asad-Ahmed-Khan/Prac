@@ -1,10 +1,12 @@
-import React, { useState,useLayoutEffect  } from "react";
+import React, { useState ,useEffect  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { newPost } from "../../redux/actionCreators/postsActionCreator";
-
+import Loader from "../../Loader";
 const AddPost = () => {
+
+ 
   const userId = useSelector((state) => state.auth.userId);
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
@@ -14,8 +16,13 @@ const AddPost = () => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
-  const [progress, setProgress] = useState(0);
-
+  const [loading, setLoading] = useState(false);
+  useEffect(() =>{
+    setLoading(true)
+    setTimeout(() =>{
+    setLoading(false)
+    }, 2000 )
+  }, [])
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +54,7 @@ const AddPost = () => {
       image,
     };
 
-    dispatch(newPost(data, userId, user?.displayName || 'user', setProgress));
+    dispatch(newPost(data, userId, user?.displayName || 'user', setLoading));
   };
 
   const rules = {
@@ -57,44 +64,48 @@ const AddPost = () => {
 
   return (
     <div className="container">
+     
       <div className="row">
         <div className="col-md-12 my-5 text-right">
           <Link to="/admin/dashboard" className="btn btn-dark mr-2">
             Go Back
           </Link>
         </div>
+       
         <div className="col-md-12 mb-3">
           <h1 className="display-3 text-dark text-center">Add Post</h1>
         </div>
        
         
         <div className="col-md-6 mx-auto mb-5 shadow p-5">
-          {progress ? (
-            progress !== 100 ? (
+          {loading ? (
+            loading !== 100 ? (
               <div className="mx-auto p-5">
                 <h1 className="text-center my-2">
-                  Uploading Post - {progress}%
+                <Loader />
                 </h1>
-                <progress
+                
+                {/* <progress
                   className="text-center form-control"
                   max={100}
                   value={progress}
-                ></progress>
+                ></progress> */}
               </div>
             ) : (
               <div className="mx-auto p-5   text-center ">
                 <i className="fa fa-tick text-success mx-auto my-2"></i>
-                <h1 className="text-center my-2">Post Uploaded successfully</h1>
+                <h1 className="text-center my-2">Post Uploaded successfully </h1>
                 <Link
-                  to={"/admin/dashboard/posts"}
+                  to={"/admin/posts"}
                   className="my-2 mx-auto btn btn-primary"
                 >
-                  See Posts
+                  See Posts 
                 </Link>
               </div>
             )
           ) : (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
+           
               <div className="form-group">
                 <input
                   type="text"
@@ -151,6 +162,7 @@ const AddPost = () => {
             </form>
           )}
         </div>
+        
       </div>
     </div>
   );
