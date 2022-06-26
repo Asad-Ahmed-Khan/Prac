@@ -30,12 +30,14 @@ export const CartReducer = (state, action) => {
                 return state;
             }
             else {
+                toast.success('Successfully Add To Card'); 
                 console.log('jusy tpost', post)
                 post = action.post;
                 post['qty'] = 1;
                 post['TotalProductPrice'] = post?.post?.price * post.qty;
                 updatedQty = totalQty + 1;
                 updatedPrice = Number(totalPrice) + Number(post.post.price);
+            
                 return {
                     shoppingCart: [post, ...shoppingCart], totalPrice: updatedPrice, totalQty: updatedQty
                 }

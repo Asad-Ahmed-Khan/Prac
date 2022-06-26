@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getPosts } from "../redux/actionCreators/postsActionCreator"; 
+import Loader from "../Loader"
+import {  useDispatch,  } from "react-redux";
 import { auth } from '../Config/config'
 import { Link } from 'react-router-dom'
 import "./login.css"
@@ -57,6 +60,16 @@ export const Login = (props) => {
     const [error, setError] = useState('');
     const handleGoogleSignIn = (data) => console.log('handleGoogleSignIn', data);
     const handleFBSignIn = (data) => console.log('handleFBSignIn', data);;
+    const [loading , setLoading] = useState(false);
+    const dispatch = useDispatch();
+    useEffect(() =>{
+        setLoading(true)
+        setTimeout(() =>{
+        setLoading(false)
+        }, 2000 )
+        dispatch(getPosts());
+      }, [])
+
 
     const login = (e) => {
       
@@ -67,7 +80,7 @@ export const Login = (props) => {
             setEmail('');
             setPassword('');
             setError('');
-            props.history.push('/');
+            props.history.goBack();
         }).catch(err => setError(err.message));
     }
 
@@ -87,10 +100,15 @@ export const Login = (props) => {
     };
 
     return (
+       
         <form autoComplete="off" className='form-group' onSubmit={login}>
+             { loading ? (
+            <Loader />
+          ) : (<>
             <div className="login">
                 <h1 className="loginTitle">Choose a Login Method</h1>
                 <div className="wrapper1">
+              
                     <div className="left">
                         <GoogleLogin
                             clientId='568290849976-jr284jc01jjqm2li24u8sfarr3ombtju.apps.googleusercontent.com'
@@ -128,7 +146,7 @@ export const Login = (props) => {
                     <div className="right">
                         <input type='email' className='log' placeholder="Email"
                             onChange={(e) => setEmail(e.target.value)} value={email} />
-                        <input type="text" className='log' placeholder="Password"
+                        <input type="password" className='log' placeholder="Password"
                             onChange={(e) => setPassword(e.target.value)} value={password} />
                         {error && <span className='error-msg'>{error}</span>}
                         <button className="submit">Login</button>
@@ -142,8 +160,9 @@ export const Login = (props) => {
 
                 </div>
             </div>
-
-        </form>
+            </>) }
+        </form> 
+        
 
     );
 };

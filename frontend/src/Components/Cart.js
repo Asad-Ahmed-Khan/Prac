@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect , useState} from 'react'
 import { CartContext } from '../Global/CartContext'
 import Navbar from './Navbar';
 import { Icon } from 'react-icons-kit'
@@ -9,11 +9,23 @@ import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { auth } from '../Config/config'
 import { Login } from '../Components/Login';
+import { getPosts } from "../redux/actionCreators/postsActionCreator"; 
+import Loader from "../Loader"
+import {  useDispatch,  } from "react-redux";
 
 export const Cart = ({ user }) => {
     console.log('lskhdfoksdfjidshf')
     
     const { shoppingCart, dispatch, totalPrice, totalQty } = useContext(CartContext);
+    const [loading, setLoading]=useState (false);
+    // const dispatch = useDispatch();
+    useEffect(() =>{
+        setLoading(true)
+        setTimeout(() =>{
+        setLoading(false)
+        }, 2000 )
+        dispatch(getPosts());
+      }, [])
 
     const history = useHistory();
 
@@ -40,6 +52,9 @@ console.log('cart data', shoppingCart)
 
                 {shoppingCart.length !== 0 && <h1>Cart</h1>}
                 <div className='cart-container'>
+                { loading ? (
+            <Loader />
+          ) : (<>
                     {
                         shoppingCart.length === 0 && <>
                             <div>no items in your cart or slow internet causing trouble (Refresh the page) or you are not logged in</div>
@@ -97,6 +112,7 @@ console.log('cart data', shoppingCart)
                             </button>
                         </Link>
                     </div>}
+                    </>) }
                 </div>
             </>
         </>

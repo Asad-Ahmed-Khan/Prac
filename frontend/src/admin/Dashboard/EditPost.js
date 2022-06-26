@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loader  from "../../Loader";
+
 import {
   getPosts,
   postUpdate,
@@ -13,21 +15,21 @@ const EditPost = () => {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const { posts, postsLoading } = useSelector(
-    (state) => ({
-      posts: state.posts.posts,
-      postsLoading: state.posts.postsLoading,
-    }),
-    shallowEqual
-  );
+
+
+  const userId = useSelector((state) => state.auth.userId);
+  const user = useSelector((state) => state.auth.user);
+  const posts = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const currentPost = posts.find((post) => post.postId === id && post);
 
   useEffect(() => {
-    if (postsLoading) {
+    if (loading) {
       dispatch(getPosts());
     }
     if (currentPost) {
@@ -41,30 +43,57 @@ const EditPost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!price ||!title || !category || !description) {
+    if (!price || !title || !category || !description) {
       return toast.warning("Please fill in all fields!");
     }
 
     if (description.length < 50) {
       return toast.info("Description should be of atleast 100");
     }
-    if (title.trim().split(" ").length < 2) {
-      return toast.info("Title should be of atleast 2 words");
-    }
+  
+    // if (title.trim().split(" ").length < 2) {
+    //   return toast.info("Title should be of atleast 2 words");
+    // }
 
     const data = { title, description, category, price };
-    dispatch(postUpdate(currentPost.postId, data));
-    toast.success("Post Updated Successfully!!");
+    
+    dispatch(postUpdate(currentPost.postId, data, setLoading));
+    
   };
-
+  const rules = {
+    pattern : '^0-9',
+    message : 'Error'
+  }
   return (
     <div className="container">
       <div className="row">
+      
         <div className="col-md-12 py-5">
           <h1 className="display-2 text-center">Edit Post</h1>
         </div>
+       
         {currentPost ? (
+         
           <div className="col-md-6 mx-auto">
+             {console.log('loading', loading)}
+             {loading ? (
+            <Loader />
+          )
+          //  : progress <= 100 && progress > 0 ? (
+          //     <div className="mx-auto p-5   text-center ">
+          //     <i className="fa fa-tick text-success mx-auto my-2"></i>
+          //     <h1 className="text-center my-2">Post Uploaded successfully  </h1>
+              
+          //     <Link
+          //       to={"/admin/posts"}
+          //       className="my-2 mx-auto btn btn-primary"
+          //     >
+          //       See Posts 
+          //     </Link>
+          //   </div>
+             
+          //   ) 
+          : (
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <input
@@ -82,12 +111,13 @@ const EditPost = () => {
                   className="form-control"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
+                  pattern="^[0-9]+"
                 />
               </div>
               <div className="form-group">
                 <input
                   type="category"
-                  placeholder="Categories [followed with commas for multiple]"
+                  placeholder="Categories "
                   className="form-control"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -103,12 +133,17 @@ const EditPost = () => {
                 ></textarea>
               </div>
               <div className="input-group">
+             
+               
                 <input
+                
                   type="submit"
                   className="btn btn-dark w-50 mr-auto"
                   value="Update Post"
-                />
+                
+                /> 
                 <button
+               
                   type="button"
                   className="btn btn-danger w-40"
                   onClick={() => history.push("/admin/posts")}
@@ -116,11 +151,14 @@ const EditPost = () => {
                   Go Back
                 </button>
               </div>
+              
             </form>
-          </div>
+            )}
+          </div> 
+        
         ) : (
           <div className="col-md-12">
-            {postsLoading ? (
+            {loading ? (
               <h1 className="text-center">Post Loading...</h1>
             ) : (
               <h1 className="text-center">
@@ -129,6 +167,7 @@ const EditPost = () => {
             )}
           </div>
         )}
+        
       </div>
     </div>
   );

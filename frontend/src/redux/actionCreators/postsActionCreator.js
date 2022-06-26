@@ -33,7 +33,8 @@ const addPost = (post) => ({
 });
 
 export const newPost =
-  (data, author, nameAuthor, setProgress) => (dispatch) => {
+  (data, author, nameAuthor, setProgress, setLoading) => (dispatch) => {
+    setLoading && setLoading(true);
     fire
       .firestore()
       .collection("posts")
@@ -65,6 +66,7 @@ export const newPost =
           },
           (error) => {
             return toast.error(error.message);
+            setLoading && setLoading(false);
           },
           () => {
             fileUpload.snapshot.ref.getDownloadURL().then((downloadURL) => {
@@ -80,6 +82,8 @@ export const newPost =
                   const docData = docum.data();
                   docData.image = downloadURL;
                   dispatch(addPost({ data: docData, postId: doc.id }));
+                  setLoading && setLoading(false);
+                  toast.success("Post Successfully Uploaded!");
                 });
             });
           }
@@ -149,8 +153,10 @@ const deletePost = (postId) => ({
   payload: postId,
 });
 
-export const postDel = (postId) => (dispatch) => {
+export const postDel = (postId, setLoading) => (dispatch) => {
+  setLoading && setLoading(true);
   fire
+ 
     .storage()
     .ref(`posts/${postId}`)
     .delete()
@@ -162,6 +168,7 @@ export const postDel = (postId) => (dispatch) => {
         .delete()
         .then(() => {
           dispatch(deletePost(postId));
+          setLoading && setLoading(false);
         });
     });
 };
@@ -171,7 +178,8 @@ const updatePost = (data) => ({
   payload: data,
 });
 
-export const postUpdate = (postId, data) => (dispatch) => {
+export const postUpdate = (postId, data, setLoading) => (dispatch) => {
+  setLoading && setLoading(true);
   fire
     .firestore()
     .collection("posts")
@@ -183,7 +191,10 @@ export const postUpdate = (postId, data) => (dispatch) => {
       description: data.description,
     })
     .then(() => {
-      dispatch(updatePost({ postId, data }));
+      dispatch(updatePost({ postId,  data }));
+    }).finally(() => {
+      setLoading && setLoading(false);
+      toast.success("Post Updated Successfully!!");
     });
 };
 
@@ -196,7 +207,7 @@ export const getAllOrders = () => async (dispatch, getState) => {
   // dispatch({
   //   type: "ALL_ORDER_REQUEST",
   // });
-  dispatch({ type: "GET_ALL_ORDERS", loading: true, data: [] });
+  dispatch({ type: "GET_ALL_ORDERS", loading: true,  data: [] });
   try {
     // const response = await axios.get("/api/orders/alluserorder");
     var data = [];
@@ -242,7 +253,8 @@ export const deliverOrder = (orderId) => async (dispatch, getState) => {
       })
 
       .then(() => {
-        window.location.href = "/admin/orders";
+        dispatch(getAllOrders())
+        // window.location.href = "/admin/orders";
         //dispatch(updatePost({ postId, data }));
       });
 

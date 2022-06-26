@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Switch, Route, useHistory, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useHistory, useRouteMatch, Redirect } from "react-router-dom";
 
 import Login from "./Login";
 import { auth, fire } from "../Config/config";
@@ -82,28 +82,37 @@ const Admin = () => {
         }
       });
   };
-  console.log('msla')
+
+  const logOutRoutes = () => {
+    return <>
+      <Route exact path={`${path}/login`} component={() => <Login loginUser={loginUser} />} />
+      <Route exact path={`${path}/register`} component={() => <Register registerUser={registerUser} />} />
+      <Redirect to={`${path}/login`} />
+    </>
+  }
+
+  const loggedInRoutes = () => {
+    return <>
+      <Route exact path={`${path}/dashboard`} component={() => <Dashboard />} />
+      <Route exact path={path} component={() => <Home />} />
+      <Route exact path={`${path}/addPost`} component={() => <AddPost />} />
+      <Route exact path={`${path}/posts`} component={() => <Posts />} />
+      <Route exact path={`${path}/orders`} component={() => <OrderList />} />
+      <Route exact path={`${path}/post/:id`} component={() => <SeePost />} />
+      <Route exact path={`${path}/post/:id/edit`} component={() => <EditPost />} />
+      <Redirect to={`${path}/dashboard`} />
+    </>
+  }
+
   return (
     <>
       {/* <Navbar /> */}
 
       <Switch>
-      
-        <Route path={`${path}/login`}>
-          <Login loginUser={loginUser} />
-        </Route>
-        <Route path={`${path}/register`}>
-          <Register registerUser={registerUser} />
-        </Route>
-        <Route path={`${path}/dashboard`}>
-          <Dashboard />
-        </Route>
-        <Route exact path={path} component={() => <Home />} />
-        <Route exact path={`${path}/addPost`} component={() => <AddPost />} />
-        <Route exact path={`${path}/posts`} component={() => <Posts />} />
-        <Route exact path={`${path}/orders`} component={() => <OrderList /> } />
-        <Route exact path={`${path}/post/:id`} component={() => <SeePost />} />
-        <Route exact path={`${path}/post/:id/edit`} component={() => <EditPost />} />
+        {isLoggedIn ? loggedInRoutes() : logOutRoutes() }
+
+
+
       </Switch>
     </>
   );

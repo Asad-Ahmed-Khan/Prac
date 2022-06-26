@@ -61,14 +61,14 @@ const App = () => {
   //   });
   // }, []);
 
-  // useEffect(() => {
-  //   setOnLine(navigator.onLine);
-  //   if (!onLine) dispatch({ type: "RESET_USER" });
-  // }, [navigator.onLine]);
+  useEffect(() => {
+    setOnLine(navigator.onLine);
+    if (!onLine) dispatch({ type: "RESET_USER" });
+  }, [navigator.onLine]);
 
-  // if (!onLine) {
-  //   return <Offline />;
-  // }
+  if (!onLine) {
+    return <Offline />;
+  }
  
   console.log('user', user, userId);
 

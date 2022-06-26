@@ -1,19 +1,19 @@
-import React  from "react";
+import React, {useState}  from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { postDel } from "../../redux/actionCreators/postsActionCreator";
-
+import Loader  from "../../Loader";
 
 
 import './postcard.css'
 const PostCard = ({  posts, id }) => {
   
-
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const postDelete = (postId) => {
-    dispatch(postDel(postId));
+    dispatch(postDel(postId, setLoading));
     toast.success("Post deleted successfully!");
   };
   
@@ -21,9 +21,14 @@ const PostCard = ({  posts, id }) => {
   return (
     <>
     {console.log('post', posts)}
+    {loading ? (
+            <Loader />
+          ) : (
     <div className="cards col-md-5 px-0 m-2 " key={id}>
+    
         {posts.length !== 0 && <h1>Products</h1>}
         <div className='products-container'>
+        
             {posts.length === 0 && <div>slow internet...no products to display</div>}
             {posts.map(post => (
                 <div className='product-card' key={post.postId}>
@@ -51,6 +56,7 @@ const PostCard = ({  posts, id }) => {
               <i className="fa fa-pencil"></i> Edit Post
             </button>
             <button
+            
               type="button"
               onClick={() => postDelete(post.postId)}
               className="btn btn-danger my-2ss"
@@ -63,7 +69,8 @@ const PostCard = ({  posts, id }) => {
                 </div>
             ))}
         </div>
-        </div>
+         
+        </div> )}
     </>
 )
  

@@ -3,6 +3,9 @@ import { auth, db } from '../Config/config'
 import { CartContext } from '../Global/CartContext'
 import Navbar from './Navbar';
 import { useHistory } from 'react-router-dom'
+import { getPosts } from "../redux/actionCreators/postsActionCreator"; 
+import Loader from "../Loader"
+
 
 export const Cashout = (props) => {
 
@@ -18,8 +21,11 @@ export const Cashout = (props) => {
     const [address, setAddress] = useState('');
     const [error, setError] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
+    const [loading , setLoading]= useState(false);
 
     useEffect(() => {
+       
+
         auth.onAuthStateChanged(user => {
            
            
@@ -33,7 +39,13 @@ export const Cashout = (props) => {
                  history.push('/login')
              }
         })
-    })
+        setLoading(true)
+        setTimeout(() =>{
+        setLoading(false)
+        }, 2000 )
+        dispatch(getPosts());
+      }, [])
+    
 
     const cashoutSubmit = (e) => {
         e.preventDefault();
@@ -69,6 +81,9 @@ export const Cashout = (props) => {
         <>
             <Navbar user={props.user} />
             <div className='container'>
+            { loading ? (
+            <Loader />
+          ) : (<>
                 <br />
                 <h2>Cashout Details</h2>
                 <br />
@@ -101,6 +116,7 @@ export const Cashout = (props) => {
                     <button type="submit" className='btn btn-success btn-md mybtn' >SUBMIT</button>
                 </form>
                 {error && <span className='error-msg'>{error}</span>}
+                </>) }
             </div>
         </>
     )

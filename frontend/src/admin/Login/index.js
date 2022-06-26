@@ -24,7 +24,7 @@ const Login = ({ loginUser }) => {
         setLoading(true)
         setTimeout(() =>{
         setLoading(false)
-        }, 2000 )
+        }, )
         dispatch(getPosts());
       }, [])
 
@@ -39,19 +39,21 @@ const Login = ({ loginUser }) => {
   };
 
   return (
+    
     <div className="container">
+      { loading ? (
+      <Loader />
+    ) : (
       <div className="row">
      
         <div className="col-md-12">
-        { loading ? (
-          <Loader />
-        )
-           : loading?.length && 100 ? (
+       
+          {/* //  : loading?.length && 100 ? ( */}
           <h1 className="text-center font-weight-bolder py-5">
             Pets Store {loading}
             <span className="text-primary"> [Admin]</span>
           </h1>
-            ) : (
+            {/* // ) : ( */}
           <div className="col-md-5 p-2 mt-5 mx-auto">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -80,10 +82,12 @@ const Login = ({ loginUser }) => {
                 </button>
               </div>
             </form>
-          </div>) }
+          </div>
+         
         </div>
-      </div>
+      </div> ) }
     </div>
+   
   );
 };
 

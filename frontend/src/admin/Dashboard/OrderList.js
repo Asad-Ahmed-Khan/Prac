@@ -64,19 +64,24 @@ const OrderList = () => {
                         className="btn-danger"
                         onClick={() => {
                           dispatch(deliverOrder(order.orderId));
+                         
                         }}
                       >
                         Deliver
                       </Button>
                     </>
                   )}{" "}
+
+                 
                 </td>
               </tr>
             ))}
         </tbody>
       </Table> : null}
     </div>
+    
   );
+ 
 };
 
 export default OrderList;

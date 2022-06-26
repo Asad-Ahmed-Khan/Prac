@@ -17,11 +17,12 @@ const AddPost = () => {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   useEffect(() =>{
-    setLoading(true)
-    setTimeout(() =>{
-    setLoading(false)
-    }, 2000 )
+    // setLoading(true)
+    // setTimeout(() =>{
+    // setLoading(false)
+    // }, 2000 )
   }, [])
   
   const handleSubmit = (e) => {
@@ -54,7 +55,7 @@ const AddPost = () => {
       image,
     };
 
-    dispatch(newPost(data, userId, user?.displayName || 'user', setLoading));
+    dispatch(newPost(data, userId, user?.displayName || 'user', setProgress, setLoading));
   };
 
   const rules = {
@@ -76,34 +77,26 @@ const AddPost = () => {
           <h1 className="display-3 text-dark text-center">Add Post</h1>
         </div>
        
-        
+        {console.log('loading', loading)}
         <div className="col-md-6 mx-auto mb-5 shadow p-5">
           {loading ? (
-            loading !== 100 ? (
-              <div className="mx-auto p-5">
-                <h1 className="text-center my-2">
-                <Loader />
-                </h1>
-                
-                {/* <progress
-                  className="text-center form-control"
-                  max={100}
-                  value={progress}
-                ></progress> */}
-              </div>
-            ) : (
+            <Loader />
+          )
+           : progress <= 100 && progress > 0 ? (
               <div className="mx-auto p-5   text-center ">
-                <i className="fa fa-tick text-success mx-auto my-2"></i>
-                <h1 className="text-center my-2">Post Uploaded successfully </h1>
-                <Link
-                  to={"/admin/posts"}
-                  className="my-2 mx-auto btn btn-primary"
-                >
-                  See Posts 
-                </Link>
-              </div>
-            )
-          ) : (
+              <i className="fa fa-tick text-success mx-auto my-2"></i>
+              <h1 className="text-center my-2">Post Uploaded successfully  </h1>
+              
+              <Link
+                to={"/admin/posts"}
+                className="my-2 mx-auto btn btn-primary"
+              >
+                See Posts 
+              </Link>
+            </div>
+             
+            ) 
+           : (
             <form onSubmit={handleSubmit} >
            
               <div className="form-group">
@@ -118,7 +111,7 @@ const AddPost = () => {
               <div className="form-group">
                 <input
                   type="category"
-                  placeholder="Categories [followed with commas for multiple]"
+                  placeholder="Categories"
                   className="form-control"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
